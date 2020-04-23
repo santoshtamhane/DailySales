@@ -1,17 +1,29 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
+
 </ion-header>
 
-<ion-content>
-  <app-auth-form #loginForm (formSubmitted)="loginUser($event)" [actionButtonText]="'Login'"></app-auth-form>
-
-  <ion-button expand="block" fill="clear" routerLink="/signup">
-    Create a new account
+<ion-content fullscreen>
+  <img src='../../../assets/imgs/shopping-cart-1105049_1280.png'>
+  <ion-title>DAILY SALES TRACKER</ion-title>
+  <form [formGroup]="loginForm" novalidate>
+  <ion-item>
+  <ion-label stacked>Email</ion-label>
+  <ion-input formControlName="email" type="email" placeholder="Your email
+  address" color ="warning"></ion-input>
+  </ion-item>
+  <ion-item>
+  <ion-label stacked>Password</ion-label>
+  <ion-input formControlName="password" type="password" placeholder="Your password" color="warning"></ion-input>
+  </ion-item>
+  <ion-button expand="block" (click)="userLogin(loginForm)" color="secondary"
+  [disabled]="!loginForm.valid">
+  Login
   </ion-button>
-
-  <ion-button expand="block" fill="clear" routerLink="/reset-password">
-    I forgot my password :(
+  </form>
+  <ion-button expand="block" fill="clear" routerLink="/signup" color="warning">
+  Sign Up for a new account
   </ion-button>
-</ion-content>
+   <ion-button expand="block" fill="clear" routerLink="/password-reset" color="light">
+  I forgot my password
+  </ion-button> 
+  </ion-content>

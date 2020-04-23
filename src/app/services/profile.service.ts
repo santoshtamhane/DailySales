@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import * as firebase from 'firebase/app';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
+import 'firebase/auth';
 import {
   AngularFirestore,
   AngularFirestoreDocument
@@ -6,8 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+
 import { UserProfile } from '../models/user';
 
 @Injectable({

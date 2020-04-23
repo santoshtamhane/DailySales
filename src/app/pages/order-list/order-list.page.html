@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Orders on {{selectedDate | date: 'shortDate'}}</ion-title>
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home" routerDirection="root"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row text-center>
+    <ion-button (click)=nextDate(-1) fill='clear'>
+      <ion-icon slot="icon-only" name="caret-back" color="dark"></ion-icon>
+    </ion-button>
+    <ion-item>
+      <h1 color="medium">{{selectedDate| date:'mediumDate'}}</h1>
+    </ion-item>
+    <ion-button (click)=nextDate(1) fill='clear'>
+      <ion-icon slot="icon-only" name="caret-forward" color="dark"></ion-icon>
+    </ion-button>
+  </ion-row>
+  <ion-searchbar (ionInput)="triggerSearch($event.target.value,this.teamid)" debounce=1000></ion-searchbar>
+  <ion-note><strong>click/tap on business name for order details</strong></ion-note>
+
+  <ion-list>
+    <ion-row>
+      <ion-col offset=3 style="text-align: right;">TODAY'S TOTAL</ion-col>
+      <ion-col style="background-color: var(--ion-color-white);text-align: right;"><strong>{{ordervalue|currency:"INR"}}</strong></ion-col>
+    </ion-row>
+  <ion-row style="background-color: #f2f4f6; margin-left:2%;margin-right:2%">
+    <ion-list-header>
+      <ion-col size=1 style="border-right: 1px solid var(--ion-color-light)"></ion-col>
+          <ion-col size = 5 style="border-right: 1px solid var(--ion-color-light)">Order</ion-col>
+        <ion-col size= 3 style="border-right: 1px solid var(--ion-color-light)">Item Count</ion-col>
+        <ion-col size = 3 style="border-right: 1px solid var(--ion-color-light)">Order Value</ion-col>
+    </ion-list-header>
+    </ion-row>
+      <ion-item *ngFor="let order of orderList | async" (click)="openOrder(order.Orderid, order.teamId)">
+<ion-label>
+  <ion-row style= "margin-left:2%;margin-right:2%">
+    <ion-col size=1 *ngIf= "order.orderStatus=='complete'">
+      <ion-icon  name="checkmark-done" color =success></ion-icon>
+    </ion-col>
+    <ion-col size=1 *ngIf= "order.orderStatus=='active'">
+      <ion-icon *ngIf= "orderStatus==active"name="checkmark" color =medium></ion-icon>
+    </ion-col>
+    <ion-col size =5><ion-text color="primary">{{order.shopname|uppercase}}</ion-text>
+    </ion-col>
+    <ion-col size=3 style= "text-align: right;"><h4>{{order.orderCount}}</h4></ion-col>
+    <ion-col size=3 style= "text-align: right;"><h4>{{order.orderTotal|currency:"INR"}}</h4></ion-col>
+  </ion-row>
+  
+  
+</ion-label>
+        </ion-item>
+</ion-list> 
+</ion-content>

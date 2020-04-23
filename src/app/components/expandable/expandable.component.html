@@ -1,0 +1,32 @@
+<h2 (click)="toggleAccordion()">
+  {{ name }}
+   <span *ngIf="isMenuOpen"><ion-icon name=add size = small slot=end></ion-icon></span>
+   <span *ngIf="!isMenuOpen"><ion-icon name=add-circle size = small slot=end></ion-icon></span>
+</h2>
+<div 
+   [ngClass]="this.isMenuOpen ? 'active' : 'inactive'">
+   <ion-row>
+      <ion-col>
+        <ion-item> 
+      <ion-label>Qty.</ion-label>
+      <ion-input type="number" placeholder=1 [(ngModel)]="qty"></ion-input> </ion-item> 
+      </ion-col>
+      <ion-col>
+         <ion-button 
+      color="primary" 
+      fill="clear" 
+      size="small" 
+      (click)="AddToCart(name,qty)"><ion-icon name=cart size=small, icon-only></ion-icon></ion-button>
+   </ion-col>
+      <ion-col>
+         <ion-button 
+      color="primary" 
+      fill="clear" 
+      size="small" 
+      (click)="AddToCart(name,qty)"><ion-icon name=close size=small, icon-only></ion-icon></ion-button>
+      </ion-col>
+   </ion-row>
+   
+  
+    
+</div>

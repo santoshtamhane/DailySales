@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ResetPasswordPage } from './reset-password.page';
-import { AuthModule } from 'src/app/shared-modules/auth.module';
+import { ShoppingCartPage } from './shopping-cart.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ResetPasswordPage
+    component: ShoppingCartPage
   }
 ];
 
@@ -20,9 +19,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    AuthModule
+    ReactiveFormsModule,
+    RouterModule.forChild(routes)
   ],
-  declarations: [ResetPasswordPage]
+  declarations: [ShoppingCartPage]
 })
-export class ResetPasswordPageModule {}
+export class ShoppingCartPageModule {}

@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Order Details</ion-title>
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/order-list/{{teamid}}" routerDirection="root"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row text-wrap style="border-bottom: 1.2px solid var(--ion-color-medium)">
+    <ion-col>
+      <ion-row>
+        <ion-label><strong>Name:</strong> {{shopname}} </ion-label>
+      </ion-row>
+      <ion-row><strong>Address:</strong> {{shopaddr}}</ion-row>
+      <ion-row><strong>Contact:</strong> {{contactname}}</ion-row>
+    </ion-col>
+    <ion-col>
+      <ion-row>
+<ion-label><strong>Order Date:</strong>{{odt | date: 'd-MMM-y'}}</ion-label>
+</ion-row>
+<ion-row>
+  <ion-label><strong>Dispatch Date:</strong>{{ddt | date:'d-MMM-y'}}</ion-label>
+</ion-row>
+    </ion-col>
+  </ion-row>
+  <form [formGroup]="orderForm">
+   <ion-row>
+     <ion-col *ngIf="!pageupdateStatus && orderStatus!='complete'"><ion-button expand=block color = "secondary" (click)="submit('active')">Update Order</ion-button></ion-col>
+     <ion-col *ngIf="orderStatus!='complete'"><ion-button expand=block color= "secondary" (click)="submit('complete')">Mark Order as Complete</ion-button></ion-col>
+   </ion-row> 
+<ion-title color = "tertiary">ORDER:{{orderStatus | uppercase}}</ion-title>
+    <ion-list>
+      <ion-row text-wrap>
+        <ion-col offset= 9><strong>Total:</strong>{{getTotal() | currency:"INR"}}</ion-col>
+       <ion-list-header>
+         <ion-col size="1"><ion-note></ion-note></ion-col>
+           <ion-col size="3"><ion-note>SKU</ion-note></ion-col>
+           <ion-col size="2"><ion-note>Qty</ion-note></ion-col>
+           <ion-col size="1"><ion-note>Units</ion-note></ion-col>
+           <ion-col size="2"><ion-note>Rate</ion-note></ion-col>
+           <ion-col size="3"><ion-note>Total</ion-note></ion-col>
+       </ion-list-header>
+     </ion-row>
+     
+     <div formArrayName="items" *ngFor="let item of orderForm.get('items')['controls']; let i = index;">
+      <ion-item [formGroupName]="i" style = "border: 1px solid grey" *ngIf = "i>0">  
+  <ion-col size="1"> <ion-icon name="pencil" size=small (click)= "presentActionSheet(i)"></ion-icon></ion-col>
+        <ion-col size="3"><ion-note ><ion-input formControlName="sku" [value]="item.sku" readonly = true></ion-input></ion-note></ion-col>
+        <ion-col size="2"><ion-note><ion-input formControlName="skuqty" [value]="item.skuqty" readonly= true></ion-input></ion-note></ion-col>
+        <ion-col size="1"><ion-note><ion-input formControlName="skuunits" [value]="item.skuunnits" readonly = true></ion-input></ion-note></ion-col>
+        <ion-col size="2"><ion-note><ion-input formControlName="skurate" [value]="item.skurate" readonly = true></ion-input></ion-note></ion-col>
+        <ion-col size="3" style="text-align: right;"><ion-note>{{getsubTotal(i)| currency:"INR"}}</ion-note></ion-col>
+      </ion-item>
+      </div>
+       
+     </ion-list>
+    
+</form>
+
+</ion-content>
+

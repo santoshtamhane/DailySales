@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color='primary'>
+    <ion-title>My Team</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"routerDirection="root"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/user-profile">
+        <ion-icon slot="icon-only" name="person-add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-grid>
+    <ion-row class="flex1">
+      <ion-icon src='assets/employees.svg' style="font-size : 100px"></ion-icon>
+    </ion-row>
+    <ion-row class="flex2">
+        <ion-col size="12" >
+      <ion-list >
+          <ion-card *ngFor="let user of userList |async">
+              <ion-row>
+                <ion-col size='3' class="cardBorder">
+                  <ion-row>
+                    <ion-text color='dark'>
+                      joined <h2>{{user.employedsince}}</h2>
+                    </ion-text>
+                  </ion-row>
+                  <ion-row>
+                     </ion-row>
+                </ion-col>
+                <ion-col size='9'>
+                  <ion-card-header>
+                    <ion-row>
+                    <ion-col size='8'>
+                    <ion-card-subtitle>{{user.designation}}</ion-card-subtitle>
+                      </ion-col>
+                      <ion-col size ='4'>
+                       <ion-button  fill="outline" (click)="presentAdminActionSheet(user.id, user.teamId)" size="small" color='dark'>Actions</ion-button>
+                      </ion-col>
+                      </ion-row>
+                    <ion-card-title>{{user.fullname}}</ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content>
+                   <ion-card-subtitle>Territory: <strong>{{ user.territory | uppercase}}</strong></ion-card-subtitle>
+                  </ion-card-content>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+      </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

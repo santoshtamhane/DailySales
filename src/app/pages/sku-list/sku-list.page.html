@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>SKU List</ion-title>
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home" routerDirection="root"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+        <ion-button routerLink="/sku" >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+        </ion-buttons>
+         
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+        <!-- <ion-searchbar (ionInput)="triggerSearch($event.target.value)" debounce=1000></ion-searchbar> -->
+        <ion-searchbar
+        [formControl]="searchControl"
+        (ionChange)="onSearchInput()"
+      ></ion-searchbar>
+    
+      <div *ngIf="searching" class="spinner-container">
+        <ion-spinner></ion-spinner>
+      </div>
+        
+        <ion-note>Click name to view details</ion-note>
+        <ion-list>
+      <ion-item *ngFor="let SKU of SKUList | async" (click)="openSKU(SKU.SKUId)">
+<ion-label>
+  <ion-row>
+    <ion-col><h1>{{SKU.SKUname|uppercase}}</h1></ion-col>
+    <ion-col><h4>{{SKU.SKUrate | currency:'INR'}} per {{SKU.SKUunit}}</h4></ion-col>
+  </ion-row>
+  <ion-row><h3>{{SKU.SKUCategory|uppercase}}</h3></ion-row>
+  
+</ion-label>
+        </ion-item>
+</ion-list> 
+ 
+  <!-- fab placed to the (vertical) center and start -->
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" >
+      <ion-fab-button routerLink="/sku" routerDirection="forward" color = "danger">
+        <ion-icon name="add" ></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+</ion-content>
+
+

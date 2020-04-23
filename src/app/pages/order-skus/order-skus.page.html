@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Choose</ion-title>
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home" routerDirection="root"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button  fill = clear icon-only (click)=gotoCart(itemsInCart)>
+          <ion-badge color=danger *ngIf="itemsInCart.length" [@cartBadge]="cartBadgeState">{{itemsInCart.length}}</ion-badge>
+          <ion-icon [@cartBadge]="cartBadgeState" name="cart"></ion-icon>
+      </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row text-wrap>
+    <ion-col>
+      <ion-row>
+        <ion-label><strong>Name:</strong> {{shopname}} </ion-label>
+      </ion-row>
+      <ion-row><strong>Address:</strong> {{shopaddr}}</ion-row>
+      <ion-row><strong>Contact:</strong> {{contactname}}</ion-row>
+    </ion-col>
+    <ion-col>
+<ion-label><strong>Date:</strong>{{orderdt| date:'d-MMM-y'}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-note color=danger>CHOOSE SKUs TO CREATE ORDER</ion-note> 
+ 
+  <app-expandable *ngFor="let SKU of SKUList | async"
+  name ={{SKU.SKUname|uppercase}} contactname={{SKU.contactname|uppercase}} 
+  (change)="getitemsInCart($event, SKU.SKUrate, SKU.SKUunit)"
+  >
+ </app-expandable>
+
+</ion-content>

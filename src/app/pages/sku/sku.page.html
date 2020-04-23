@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-title>{{SKUname?SKUname:"New SKU"}}</ion-title>
+      <ion-buttons slot="start">
+              <ion-back-button defaultHref="/sku-list" routerDirection="backward"></ion-back-button>
+          </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-grid>
+  <form [formGroup]="SKUForm">
+      <ion-item><ion-icon name = "cube" slot = 'start' size="large" ></ion-icon>
+          <ion-label position="floating" color="primary" text-wrap>Name of the SKU</ion-label>
+          <ion-input formControlName="SKUname" [value]="SKUname" 
+          (input)="SKUname = $event.target.value" type='text' [attr.maxlength]="20"></ion-input>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="!SKUForm.controls.SKUname.valid && SKUForm.controls.SKUname.dirty">
+          <p>Enter SKU name  30 char max. Avoid these special characters in the name $ . & / </p>
+      </ion-item>
+<!-- ==============================-->
+      <ion-item><ion-icon name="albums" size ='large' slot='start'></ion-icon>
+        <ion-label text-wrap position=stacked>SKU Category</ion-label>
+          <ion-select formControlName="SKUCategory" interface="alert" [value]="SKUCategory" [compareWith]="compareWith"
+          (ionChange)="onSelectChange($event)"
+          [class.invalid]="!SKUForm.controls.SKUCategory.valid && SKUForm.controls.SKUCategory.dirty">
+            <ion-select-option *ngFor="let c of Categories | async" [value] = "c.id">{{c.id}}</ion-select-option>
+          </ion-select>
+      </ion-item>
+        <p class="help" *ngIf="SKUForm.controls.SKUCategory.valid && SKUForm.controls.SKUCategory.dirty">
+          SKU Category </p>
+      <ion-item class="error-message" *ngIf="!SKUForm.controls.SKUCategory.valid && SKUForm.controls.SKUCategory.dirty">
+          <p> SKU Category </p>
+      </ion-item>
+<!-- ==============================-->
+      <ion-item > <ion-icon name = "cash" slot = 'start' size="large" ></ion-icon>
+          <ion-label text-wrap position="floating" color="primary">SKU Rate</ion-label>
+          <ion-input formControlName= "SKUrate" [value]="SKUrate" (input)="SKUrate = $event.target.value" [attr.maxlength]="30" type="telephone"
+           [class.invalid]="!SKUForm.controls.SKUrate.valid && SKUForm.controls.SKUrate.dirty"></ion-input>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="!SKUForm.controls.SKUrate.valid && SKUForm.controls.SKUrate.dirty">
+          <p>Enter rate of SKU</p>
+      </ion-item>
+      <!-- ==============================-->
+      <ion-item> <ion-icon name = "infinite" slot = 'start' size="large" ></ion-icon>
+        <ion-label text-wrap position="floating" color="primary">unit</ion-label>
+        <ion-input formControlName="SKUunit" [value]="SKUunit" (input)="SKUunit = $event.target.value" type="text"
+            [attr.maxlength]="20" [class.invalid]="!SKUForm.controls.SKUunit.valid && SKUForm.controls.SKUunit.dirty"></ion-input>
+    </ion-item>
+    <p class="help" *ngIf="SKUForm.controls.SKUunit.valid && SKUForm.controls.SKUunit.dirty">
+        SKU rate</p>
+     <p class="error-message" *ngIf="!SKUForm.controls.SKUunit.valid && SKUForm.controls.SKUunit.dirty"> SKU rate </p>
+     
+      <ion-button expand="block" (click)="addSKU(SKUForm)" [disabled]="!SKUForm.valid">
+              Save this Information
+            </ion-button> </form>
+            </ion-grid>
+</ion-content>

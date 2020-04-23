@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Choose</ion-title>
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home" routerDirection="root"></ion-back-button>
+    </ion-buttons>
+ 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+        <ion-searchbar (ionInput)="triggerSearch($event.target.value)" debounce=1000></ion-searchbar>
+  
+  <ion-title color=danger>CHOOSE SHOP TO CREATE ORDER</ion-title> 
+  <ion-list>
+      <ion-item *ngFor="let shop of shopList | async" (click)="gotoSKUList(shop)">
+<ion-label>
+  <h1>{{shop.shopname|uppercase}}</h1>
+  <h3>{{shop.contactname|uppercase}}</h3>
+</ion-label>
+        </ion-item>
+</ion-list> 
+
+</ion-content>

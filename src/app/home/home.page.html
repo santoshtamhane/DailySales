@@ -1,18 +1,47 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>MetraRev</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title color=light>
+      Daily Sales Track App
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/profile">
-        <ion-icon slot="icon-only" name="person"></ion-icon>
+      <ion-button (click)="logOut()">
+        <ion-icon slot="icon-only" name="log-out" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be
-      your guide.</p>
-  </div>
+  <ion-grid>
+   <ion-row>
+     <ion-col (click)="bookOrder()">
+      <ion-icon  name='document-text' ></ion-icon>
+      <p>BOOK ORDER</p>
+     </ion-col>
+     <ion-col (click)="listOrders()">
+      <ion-icon   name='list'></ion-icon>
+      <p>ORDERS</p>
+     </ion-col>
+   </ion-row>
+   <ion-row>
+    <ion-col (click)="listCustomers()">
+      <ion-icon  name='business'></ion-icon>
+      <p>CUSTOMERS</p>
+     </ion-col>
+     <ion-col (click)="listSKUs()">
+      <ion-icon   name='cube' ></ion-icon>
+      <p>SKU</p>
+     </ion-col>
+   </ion-row>
+   <ion-row>
+    <ion-col (click)="showReports()">
+      <ion-icon  name='stats-chart' ></ion-icon>
+      <p>REPORTS</p>
+     </ion-col>
+     <ion-col (click)="manageTeam()">
+      <ion-icon   name='people' ></ion-icon>
+      <p>MY TEAM</p>
+     </ion-col>
+   </ion-row>
+  </ion-grid>
 </ion-content>

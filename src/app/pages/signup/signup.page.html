@@ -1,16 +1,60 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/login"></ion-back-button>
+      <ion-back-button defaultHref="/login" routerDirection="root"></ion-back-button>
     </ion-buttons>
-    <ion-title>Create your account</ion-title>
+
+    <ion-title>Create a new account</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <app-auth-form #signupForm (formSubmitted)=signupUser($event) [actionButtonText]="'Create Account'"></app-auth-form>
+<ion-content padding>
+  <ion-grid>
+    <ion-row class='flex1'>
+</ion-row>
+<ion-row class='flex2'>
+  <form [formGroup]="signupForm" novalidate>
 
-  <ion-button expand="block" fill="clear" routerLink="/login">
-    I already have an account
-  </ion-button>
+    <ion-item><ion-icon name="person" size ='large' slot='start'></ion-icon>
+      <ion-label position = "floating" text-wrap>What is your full name?</ion-label>
+      <ion-input formControlName="fullname" type="text" [value] ='fullname' >
+      </ion-input>
+    </ion-item>
+
+    <ion-item><ion-icon name="home" size ='large' slot='start'></ion-icon>
+      <ion-label position = "floating" text-wrap>What is the name of your company? </ion-label>
+      <ion-input formControlName="companyname" type="text" [value] ='companyname'>
+      </ion-input>
+    </ion-item>
+    
+    <ion-item><ion-icon name='at' size ='large' slot='start'></ion-icon>
+      <ion-label position = "floating" text-wrap>What is your official email id ?</ion-label>
+      <ion-input formControlName="email" type="email" >
+      </ion-input>
+    </ion-item>
+ 
+    <ion-item><ion-icon name="eye-off" size ='large' slot='start'></ion-icon>
+      <ion-label position ="floating" text-wrap>Create a password for this app</ion-label>
+      <ion-input formControlName="password" type="password" >
+      </ion-input>
+    </ion-item>
+
+    <ion-item><ion-icon name="albums" size ='large' slot='start'></ion-icon>
+      <ion-label position = "stacked" text-wrap>What is the business category</ion-label>
+        <ion-select formControlName="BusinessType" interface="alert" value="{{BusinessType}}" [compareWith]="compareWith"
+         (ionChange)="BusinessType = $event.target.value"
+        [class.invalid]="!signupForm.controls.BusinessType.valid && signupForm.controls.BusinessType.dirty">
+          <ion-select-option *ngFor="let b of businessTypeList | async" [value]="b.id">{{b.id}}</ion-select-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-button expand="block" (click)="userSignup(signupForm)" [disabled]="!signupForm.valid">
+      Create an Account
+    </ion-button>
+  </form>
+  <ion-note>Please fill all fields to proceed</ion-note>
+  </ion-row>
+
+  </ion-grid>
 </ion-content>
