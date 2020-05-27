@@ -6,7 +6,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button  fill = clear icon-only (click)=gotoCart(itemsInCart)>
-          <ion-badge color=danger *ngIf="itemsInCart.length" [@cartBadge]="cartBadgeState">{{itemsInCart.length}}</ion-badge>
+          <ion-badge color=danger *ngIf="itemsInCart.length" [@cartBadge]="cartBadgeState">{{cartTotal | currency :'INR'}}</ion-badge>
           <ion-icon [@cartBadge]="cartBadgeState" name="cart"></ion-icon>
       </ion-button>
   </ion-buttons>
@@ -30,7 +30,7 @@
  
   <app-expandable *ngFor="let SKU of SKUList | async"
   name ={{SKU.SKUname|uppercase}} contactname={{SKU.contactname|uppercase}} 
-  (change)="getitemsInCart($event, SKU.SKUrate, SKU.SKUunit)"
+  (change)="getitemsInCart($event, SKU.SKUrate, SKU.SKUunit, SKU.SKUId)"
   >
  </app-expandable>
 

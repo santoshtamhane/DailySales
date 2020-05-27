@@ -79,6 +79,7 @@ export class ShoppingCartPage implements OnInit {
   createItem(item): FormGroup {
       return this.formBuilder.group({
       sku: item ? item.sku : '',
+      skuid: item ? item.skuid : '',
       skuqty: item ? item.skuqty : 0,
       skuunits: item ? item.skuunits : '',
       skurate: item ? item.skurate : 0,
@@ -148,6 +149,7 @@ async submit(): Promise<any> {
     if (Orderid) {
 await this.orderProvider.updateorder(
   Orderid,
+  this.shopId,
   this.shopname,
   this.shopemail,
   this.shopphone,
@@ -166,6 +168,7 @@ await this.orderProvider.updateorder(
 } else {
     await this.orderProvider.createorder(
       this.shopname,
+      this.shopId,
       this.shopemail,
       this.shopphone,
       this.contactname,

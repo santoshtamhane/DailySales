@@ -47,7 +47,7 @@ export class HomePage {
         this.router.navigateByUrl(`/sku-list/${this.teamid}/${this.businesstype}`);
       }
       showReports() {
-        this.router.navigateByUrl('reports');
+        this.router.navigateByUrl(`metrics/${this.teamid}`);
       }
       manageTeam() {
         this.router.navigateByUrl('team');

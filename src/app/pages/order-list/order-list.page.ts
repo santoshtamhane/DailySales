@@ -35,7 +35,7 @@ export class OrderListPage implements OnInit {
 
   nextDate(dtdirection: number) {
     this.selectedDate = addDays((this.selectedDate), dtdirection) ;
-    this.orderList = this.orderService.getorderListbyDate(this.selectedDate, this.teamid, null).valueChanges();
+    this.orderList = this.orderService.getOrdersByDate(this.selectedDate, this.teamid, null).valueChanges();
     this.orderList.subscribe(orderdocs => {
       this.ordervalue = orderdocs.map(res => res).reduce((acc, val) => acc + val.orderTotal, 0);
     });

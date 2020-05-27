@@ -3,6 +3,8 @@ import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import startOfDay from 'date-fns/startOfDay';
 import endOfDay from 'date-fns/endOfDay';
+import startOfMonth from 'date-fns/startOfMonth';
+import endOfMonth from 'date-fns/endOfMonth';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -36,29 +38,29 @@ export class OrderService {
      .orderBy('orderdt', 'desc'));
 
   }
-  getorderListbyDate(selectdt: Date, teamid: string, userid: string): AngularFirestoreCollection<Order> {
+  getOrderListByDate(selectdt: Date, teamid: string, userid: string): AngularFirestoreCollection<Order> {
+    console.log('getOrderListByDate');
     const fieldname = userid ? 'docAuthor' : 'teamId';
     const fieldvalue = userid ? userid : teamid;
-    // const dt = new Date(selectdt.getUTCFullYear(), selectdt.getUTCMonth(), selectdt.getUTCDate(), 23, 59);
-    // const daystart = firebase.firestore.Timestamp.fromDate(new Date(startOfDay(selectdt)));
     const daystart = startOfDay(selectdt);
     const dayend = endOfDay(selectdt);
-    console.log('orderlist=', `teamProfile/${teamid}/orderList`, daystart, dayend, fieldname, fieldvalue);
+    console.log('fieldname=', fieldname, 'val=', fieldvalue);
     return this.fireStore.collection<Order>(
-     `teamProfile/${this.teamid}/orderList`,
-      ref => ref.where(fieldname, '==', fieldvalue)
-      .where('orderdt' , '>=', new Date(daystart))
+      `teamProfile/${teamid}/orderList`,
+       ref => ref
+       .where(fieldname, '==', fieldvalue)
+       .where('orderdt' , '>=', new Date(daystart))
       .where('orderdt', '<=', new Date(dayend))
-      .orderBy('orderdt')
-    );
-
+       .orderBy('orderdt'));
   }
+
   getOrdersByDate(selectdt: Date, teamid: string, userid: string): AngularFirestoreCollection<Order> {
+    console.log('getOrdersByDate');
     const fieldname = userid ? 'docAuthor' : 'teamId';
     const fieldvalue = userid ? userid : teamid;
     const daystart = startOfDay(selectdt);
     const dayend = endOfDay(selectdt);
-
+    console.log('fieldname=', fieldname, 'val=', fieldvalue);
     return this.fireStore.collection<Order>(
       `teamProfile/${teamid}/orderList`,
        ref => ref
@@ -67,7 +69,21 @@ export class OrderService {
       .where('orderdt', '<=', new Date(dayend))
        .orderBy('orderdt', 'desc'));
   }
+  getOrdersByMonth(selectdt: Date, teamid: string, userid: string): AngularFirestoreCollection<Order> {
+    const fieldname = userid ? 'docAuthor' : 'teamId';
+    const fieldvalue = userid ? userid : teamid;
+    const dt = new Date(selectdt.getUTCFullYear(), selectdt.getUTCMonth(), selectdt.getUTCDate(), 23, 59);
+    const mthstart = startOfMonth(dt);
+    const mthend = endOfMonth(dt);
 
+    return this.fireStore.collection<Order>(
+      `teamProfile/${teamid}/orderList`,
+       ref => ref
+       .where(fieldname, '==', fieldvalue)
+       .where('orderdt' , '>=', new Date(mthstart))
+      .where('orderdt', '<=', new Date(mthend))
+       .orderBy('orderdt', 'desc'));
+  }
 searchorderList(searchTerm: string , orderStatus: string): AngularFirestoreCollection<Order> {
 const start = searchTerm ;
 const end = start + '\uf8ff';
@@ -83,7 +99,7 @@ return this.fireStore.collection<Order>
 }
 
   async createorder(
-    shopname: string, shopemail: string, shopphone: string, contactname: string, shopaddr: string,
+    shopname: string, shopId: string, shopemail: string, shopphone: string, contactname: string, shopaddr: string,
     shoplocality: string, shopType: string, items: Array<Items>, odt: any,
     orderCount: number, orderTotal: number, ddt: any): Promise<void> {
     const Orderid: string = this.fireStore.createId();
@@ -98,6 +114,7 @@ return this.fireStore.collection<Order>
         Orderid,
         orderNo,
         shopname,
+        shopId,
         shopemail,
         shopphone,
         contactname,
@@ -116,8 +133,8 @@ return this.fireStore.collection<Order>
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
   }
-  updateorder(Orderid: string, shopname: string, shopemail: string, shopphone: string, contactname: string, shopaddr: string,
-              shoplocality: string, shopType: string, items: Array<Items>, orderStatus: string,
+  updateorder(Orderid: string, shopId: string, shopname: string, shopemail: string, shopphone: string,
+              contactname: string, shopaddr: string, shoplocality: string, shopType: string, items: Array<Items>, orderStatus: string,
               orderNo: string, orderdt: any, orderCount: number, orderTotal: number, dispatchdt: any): Promise<void> {
     const lastupdton: Date = new Date();
 
@@ -125,6 +142,7 @@ return this.fireStore.collection<Order>
       .doc<Order>(`teamProfile/${this.teamid}/orderList/${Orderid}`)
       .update({
         Orderid,
+        shopId,
         orderNo,
         shopname,
         shopemail,

@@ -135,7 +135,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'order-skus/:shopname/:shopemail/:shopphone/:contactname/:shopaddr/:shoplocality/:shopType/:shopId/:teamid',
+    path: 'order-skus/:shopId/:shopname/:shopemail/:shopphone/:contactname/:shopaddr/:shoplocality/:shopType/:shopId/:teamid',
     loadChildren: () =>
       import('./pages/order-skus/order-skus.module').then(m => m.OrderSKUsPageModule),
     canActivate: [AuthGuard]
@@ -177,6 +177,21 @@ const routes: Routes = [
       import('./pages/order-display/order-display.module').then(m => m.OrderDisplayPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'metrics',
+    loadChildren: () =>
+      import('./pages/metrics/metrics.module').then(m => m.MetricsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'metrics/:teamId',
+    loadChildren: () =>
+      import('./pages/metrics/metrics.module').then(m => m.MetricsPageModule),
+    canActivate: [AuthGuard]
+  },
+  { path: 'reports', loadChildren: './pages/reports/reports.module#ReportsPageModule' },
+  { path: 'user-list', loadChildren: './pages/user-list/user-list.module#UserListPageModule' },
+
 ];
 
 @NgModule({

@@ -1,0 +1,299 @@
+<ion-header>
+  <ion-toolbar color='warning'>
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="/home" routerDirection="root"></ion-back-button>
+      </ion-buttons>
+    <ion-title>Metrics</ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+<ion-segment [(ngModel)]='reportType' (ionChange)="segmentChanged($event.target.value)">
+      <ion-segment-button value=10>
+        Daily
+      </ion-segment-button>
+      <ion-segment-button value=20>
+        Monthly
+      </ion-segment-button>
+      <ion-segment-button value=30>
+        Annual
+      </ion-segment-button>
+    </ion-segment>
+
+  <div [ngSwitch] = "reportType">
+  <div *ngSwitchCase = 10>
+    <ion-grid>
+        <ion-row  text-center>
+            <ion-button (click)=nextDate(-1) fill='clear'>
+              <ion-icon slot="icon-only" name="arrow-dropleft" color="dark"></ion-icon>
+            </ion-button>
+            <ion-item>
+              <h1 color="medium">{{selectedDate| date:'mediumDate'}}</h1>
+            </ion-item>
+            <ion-button (click)=nextDate(1) fill='clear'>
+              <ion-icon slot="icon-only" name="arrow-dropright" color="dark"></ion-icon>
+            </ion-button>
+          </ion-row> 
+      <ion-row>
+          <ion-col>
+              <ion-card>
+                  <ion-card-header>
+                    <ion-card-subtitle>TODAY</ion-card-subtitle>
+                    <ion-card-title>Order Value</ion-card-title>
+                  </ion-card-header>
+                
+                  <ion-card-content style="font-size : 150%">
+                    {{todayTotal | currency:'INR'}}
+                 
+                  </ion-card-content>
+                </ion-card>
+          </ion-col>
+          <ion-col>
+              <ion-card>
+                  <ion-card-header>
+                    <ion-card-subtitle>Customer Count Today</ion-card-subtitle>
+                    <ion-card-title>Customers</ion-card-title>
+                  </ion-card-header>
+                
+                  <ion-card-content style="font-size : 150%">
+                    {{CustCount}}
+                  </ion-card-content>
+                </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-card>
+                    <ion-card-header>
+                      <ion-card-subtitle>SKU CountToday</ion-card-subtitle>
+                      <ion-card-title>SKUs</ion-card-title>
+                    </ion-card-header>
+                  
+                    <ion-card-content style="font-size : 150%">
+                 {{SKUCount}}
+                    </ion-card-content>
+                  </ion-card>
+            </ion-col>
+            <ion-col>
+                <ion-card>
+                    <ion-card-header>
+                      <ion-card-subtitle>Order Value per client</ion-card-subtitle>
+                      <ion-card-title>Avg. Order Size</ion-card-title>
+                    </ion-card-header>
+                  
+                    <ion-card-content style="font-size : 150%">
+                {{avgOrder}}
+                    </ion-card-content>
+                  </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-card>
+                    <ion-card-header>
+                      <ion-card-subtitle>Highest order value today </ion-card-subtitle>
+                      <ion-card-title>Max Order</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content style="font-size : 150%">
+                      {{highestOrder}}
+                    </ion-card-content>
+                  </ion-card>
+            </ion-col>
+            <ion-col>
+                <ion-card>
+                    <ion-card-header>
+                      <ion-card-subtitle>Highest SKU value</ion-card-subtitle>
+                      <ion-card-title>Max SKU</ion-card-title>
+                    </ion-card-header>
+                  
+                    <ion-card-content style="font-size : 150%">
+                      {{highestSKU}}
+                    </ion-card-content>
+                  </ion-card>
+            </ion-col>
+        </ion-row>
+        </ion-grid>
+  </div>
+  <div *ngSwitchCase = 20>
+      <ion-grid>
+          <ion-row  text-center>
+              <ion-button (click)=nextMonth(-1) fill='clear'>
+                <ion-icon slot="icon-only" name="arrow-dropleft" color="dark"></ion-icon>
+              </ion-button>
+              <ion-item>
+                <h1 color="medium">{{selectedDate| date:'MMM-yyy'}}</h1>
+              </ion-item>
+              <ion-button (click)=nextMonth(1) fill='clear'>
+                <ion-icon slot="icon-only" name="arrow-dropright" color="dark"></ion-icon>
+              </ion-button>
+            </ion-row> 
+          <ion-row>
+              <ion-col>
+                  <ion-card>
+                      <ion-card-header>
+                        <ion-card-subtitle>Month</ion-card-subtitle>
+                        <ion-card-title>Order Value</ion-card-title>
+                      </ion-card-header>
+                    
+                      <ion-card-content style="font-size : 150%">
+                        {{MonthTotal | currency:'INR'}}
+                     
+                      </ion-card-content>
+                    </ion-card>
+              </ion-col>
+              <ion-col>
+                  <ion-card>
+                      <ion-card-header>
+                        <ion-card-subtitle>Client Interactions</ion-card-subtitle>
+                        <ion-card-title>Planned</ion-card-title>
+                      </ion-card-header>
+                    
+                      <ion-card-content style="font-size : 150%">
+                        {{totalmonthlytasks}}
+                      </ion-card-content>
+                    </ion-card>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header>
+                          <ion-card-subtitle>Client Interactions</ion-card-subtitle>
+                          <ion-card-title>Completed</ion-card-title>
+                        </ion-card-header>
+                      
+                        <ion-card-content style="font-size : 150%">
+                     {{taskmonthlyCompletion | percent:'1.0-0'}}
+                        </ion-card-content>
+                      </ion-card>
+                </ion-col>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header>
+                          <ion-card-subtitle>{{currMonth | date:'MMM-yyyy'}}</ion-card-subtitle>
+                          <ion-card-title>New Leads</ion-card-title>
+                        </ion-card-header>
+                      
+                        <ion-card-content style="font-size : 150%">
+                    {{newmonthlyleads}}
+                        </ion-card-content>
+                      </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header>
+                          <ion-card-subtitle>Opportunity to </ion-card-subtitle>
+                          <ion-card-title>Order</ion-card-title>
+                        </ion-card-header>
+                      
+                        <ion-card-content style="font-size : 150%">
+                          {{oppmonthconversions}}
+                        </ion-card-content>
+                      </ion-card>
+                </ion-col>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header>
+                          <ion-card-subtitle>Leads to</ion-card-subtitle>
+                          <ion-card-title>Opportunity</ion-card-title>
+                        </ion-card-header>
+                      
+                        <ion-card-content style="font-size : 150%">
+                          {{monthLeadConversions}}
+                        </ion-card-content>
+                      </ion-card>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+    </div>
+    <div *ngSwitchCase = 30>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header>
+                          <ion-card-subtitle>{{currMonth | date:'MMM-yyyy'}}</ion-card-subtitle>
+                          <ion-card-title>Opportunity Value Won</ion-card-title>
+                        </ion-card-header>
+                      
+                        <ion-card-content style="font-size : 150%">
+                          {{oppWonTotal | currency:'INR'}}
+                       
+                        </ion-card-content>
+                      </ion-card>
+                </ion-col>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header>
+                          <ion-card-subtitle>Lifetime</ion-card-subtitle>
+                          <ion-card-title>Sales Velocity</ion-card-title>
+                        </ion-card-header>
+                      
+                        <ion-card-content style="font-size : 150%">
+                          
+                        </ion-card-content>
+                      </ion-card>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col>
+                      <ion-card>
+                          <ion-card-header>
+                            <ion-card-subtitle>Lifetime</ion-card-subtitle>
+                            <ion-card-title>Win / Loss Ratio</ion-card-title>
+                          </ion-card-header>
+                        
+                          <ion-card-content style="font-size : 150%">
+                       {{winloss | percent:'1.0-0' }}
+                          </ion-card-content>
+                        </ion-card>
+                  </ion-col>
+                  <ion-col>
+                      <ion-card>
+                          <ion-card-header>
+                            <ion-card-subtitle>{{currMonth | date:'MMM-yyyy'}}</ion-card-subtitle>
+                            <ion-card-title>New Leads</ion-card-title>
+                          </ion-card-header>
+                        
+                          <ion-card-content style="font-size : 150%">
+                      {{newleads}}
+                          </ion-card-content>
+                        </ion-card>
+                  </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col>
+                      <ion-card>
+                          <ion-card-header>
+                            <ion-card-subtitle>{{currMonth | date:'MMM-yyyy'}}</ion-card-subtitle>
+                            <ion-card-title>Avg. Closure Duration</ion-card-title>
+                          </ion-card-header>
+                        
+                          <ion-card-content style="font-size : 150%">
+                            99.99
+                          </ion-card-content>
+                        </ion-card>
+                  </ion-col>
+                  <ion-col>
+                      <ion-card>
+                          <ion-card-header>
+                            <ion-card-subtitle>Lifetime</ion-card-subtitle>
+                            <ion-card-title>Lead Conversion Ratio</ion-card-title>
+                          </ion-card-header>
+                        
+                          <ion-card-content style="font-size : 150%">
+                            99
+                          </ion-card-content>
+                        </ion-card>
+                  </ion-col>
+              </ion-row>
+              </ion-grid>
+      </div>
+</div>
+  
+
+
+</ion-content>

@@ -66,7 +66,7 @@ export class OrderSKUsPage implements OnInit {
       shopId: string;
       teamid: string;
       dispatchdt: string;
-
+      cartTotal = 0;
     constructor(public alertCtrl: AlertController, public navCtrl: NavController,
                 public SKUProvider: SKUServiceService, private route: ActivatedRoute,
                 private router: Router, private changeDetector: ChangeDetectorRef,
@@ -92,18 +92,37 @@ export class OrderSKUsPage implements OnInit {
         // this.getStorage();
     }
 
-    getitemsInCart(item: any, rate: number, units: string) {
+    getitemsInCart(item: any, rate: number, units: string, skuid: string) {
       if (item[0] && item[0] !== null) {
       item[0].skurate = rate;
       item[0].skuunits = units;
       item[0].skustatus = 'active';
-      this.itemsInCart.push(item);
-      item.addButtonState = 'adding';
-      this.cartBadgeState = 'adding';
-      this.changeDetector.detectChanges();
-
+      item[0].skuid = skuid;
+      let push = true;
+      for (let i = 0; i < this.itemsInCart.length; i++) {
+        if (this.itemsInCart[i].sku === item[0].sku) { // modify whatever property you need
+          if (item[0].skuqty > 0) {
+            this.itemsInCart[i] = item[0];
+          } else {
+              this.itemsInCart = this.itemsInCart.filter(s => s.sku !== item[0].sku);
+          }
+          push = false;
+        }
       }
+      if (push && item[0].skuqty > 0) {
+          this.itemsInCart.push(item[0]);
+          item.addButtonState = 'adding';
+          this.cartBadgeState = 'adding';
+          this.changeDetector.detectChanges();
+      }
+      this.cartTotal = 0;
+      this.itemsInCart.forEach(itm => {
+        this.cartTotal = this.cartTotal + parseFloat(itm.skuqty) * parseFloat(itm.skurate);
+      });
+       }
     }
+
+
     clearStorage() {
         this.storage.clear();
     }
@@ -114,7 +133,7 @@ export class OrderSKUsPage implements OnInit {
             if (data && data.length > 0) {
       data.forEach(item => {
         console.log('adding, ', item);
-        this.getitemsInCart(item, item.skurate, item.skuunits);
+        this.getitemsInCart(item, item.skurate, item.skuunits, item.skuid);
       });
     }
         });
@@ -132,9 +151,8 @@ gotoCart(itemsInCart: any) {
   const shopId = this.shopId;
   const cart = [];
   this.itemsInCart.forEach(item => {
-   cart.push(item[0]);
+   cart.push(item);
   });
-
   this.storage.setObject(shopId, cart);
   this.router.navigateByUrl(`shopping-cart/${shopname}/${shopemail}/${shopphone}/${contactname}
   /${shopaddr}/${shoplocality}/${shopType}/${shopId}/${this.teamid}/${this.orderdt}/${this.dispatchdt}`);

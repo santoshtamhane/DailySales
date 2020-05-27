@@ -43,7 +43,7 @@ const shoplocality = shop.shoplocality ? shop.shoplocality : ' ';
 const shopId = shop.shopId;
 const shopType = shop.shopType ? shop.shopType : ' ';
 
-this.router.navigateByUrl(`order-skus/${shopname}/${shopemail}/${shopphone}/
+this.router.navigateByUrl(`order-skus/${shopId}/${shopname}/${shopemail}/${shopphone}/
   ${contactname}/${shopaddr}/${shoplocality}/${shopType}/${shopId}/${this.teamid}`);
   }
 

@@ -24,10 +24,28 @@ export class ExpandableComponent implements OnInit {
   }
 
 AddToCart(name: string, qty: number) {
-  if (qty > 0) {
-  this.Cartitem.push({sku: name, skuqty: qty});
-  // console.log('emitting ', this.Cartitem);
-  this.change.emit(this.Cartitem);
+
+    if (this.Cartitem && this.Cartitem.length > 0) {
+      this.Cartitem[0] = {sku: name, skuqty: qty};
+    } else {
+    this.Cartitem.push({sku: name, skuqty: qty});
+
   }
+    console.log('emitting ', this.Cartitem);
+    this.change.emit(this.Cartitem);
+
 }
+RemovefromCart(name: string, qty: number) {
+  this.qty = 0;
+  if (this.Cartitem && this.Cartitem.length > 0) {
+    this.Cartitem[0] = {sku: name, skuqty: 0};
+  } else {
+  this.Cartitem.push({sku: name, skuqty: 0});
+
+}
+  console.log('remove emitting ', this.Cartitem);
+  this.change.emit(this.Cartitem);
+
+}
+
 } // EOF

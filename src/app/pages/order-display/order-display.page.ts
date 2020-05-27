@@ -161,6 +161,7 @@ export class OrderDisplayPage implements OnInit {
     if (this.orderid) {
 await this.orderProvider.updateorder(
   Orderid,
+  this.shopId,
   this.shopname,
   this.shopemail,
   this.shopphone,
@@ -179,6 +180,7 @@ await this.orderProvider.updateorder(
 } else {
     await this.orderProvider.createorder(
       this.shopname,
+      this.shopId,
       this.shopemail,
       this.shopphone,
       this.contactname,
